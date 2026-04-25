@@ -1,0 +1,288 @@
+@import "tailwindcss";
+@property --cursor-accent {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #10b981;
+}
+
+@property --cursor-glow {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #10b981;
+}
+
+:root {
+  --background: #08090a;
+  --foreground: #f4f4f5;
+  --muted: #71717a;
+  --accent: #10b981;
+  --accent-glow: #059669;
+  --accent-soft: rgba(16, 185, 129, 0.12);
+  
+  /* Iron Man Theme */
+  --iron-red: #ef4444;
+  --iron-gold: #facc15;
+  --iron-glow: #dc2626;
+  --iron-soft: rgba(239, 68, 68, 0.12);
+  
+  --metal: #94a3b8;
+  --card-bg: rgba(15, 23, 42, 0.6);
+  --card-border: rgba(148, 163, 184, 0.15);
+  --hud-line: rgba(148, 163, 184, 0.1);
+
+  --cursor-accent: var(--accent);
+  --cursor-glow: var(--accent);
+  transition: --cursor-accent 0.3s ease, --cursor-glow 0.3s ease;
+}
+
+:root[data-theme="iron"] {
+  --cursor-accent: var(--iron-red);
+  --cursor-glow: var(--iron-gold);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-muted: var(--muted);
+  --color-accent: var(--accent);
+  --color-accent-glow: var(--accent-glow);
+  --color-accent-soft: var(--accent-soft);
+  --color-iron-red: var(--iron-red);
+  --color-iron-gold: var(--iron-gold);
+  --color-iron-glow: var(--iron-glow);
+  --color-iron-soft: var(--iron-soft);
+  --color-metal: var(--metal);
+  --font-sans: var(--font-sans);
+  --font-heading: var(--font-heading);
+  --font-mono: var(--font-mono);
+}
+
+html,
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans), system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading), var(--font-sans), sans-serif;
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
+}
+
+body {
+  text-rendering: optimizeLegibility;
+}
+
+.card-surface {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 20px;
+  backdrop-filter: blur(24px) saturate(160%);
+  -webkit-backdrop-filter: blur(24px) saturate(160%);
+  box-shadow:
+    0 1px 0 0 rgba(148, 163, 184, 0.1) inset,
+    0 0 20px rgba(16, 185, 129, 0.03),
+    0 20px 40px -20px rgba(0, 0, 0, 0.8);
+  position: relative;
+  overflow: hidden;
+}
+
+.card-surface::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.05) 0%,
+    transparent 50%,
+    rgba(16, 185, 129, 0.02) 100%
+  );
+  pointer-events: none;
+}
+
+.scroll-animation {
+  height: 400vh;
+}
+
+@media (max-width: 1024px) {
+  .scroll-animation {
+    height: 350vh;
+  }
+}
+
+@media (max-width: 768px) {
+  .scroll-animation {
+    height: 300vh;
+  }
+}
+
+.hud-tick {
+  background-image: linear-gradient(
+    90deg,
+    transparent 0 calc(100% - 1px),
+    var(--hud-line) calc(100% - 1px) 100%
+  );
+  background-size: 16px 100%;
+}
+
+.grain::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  pointer-events: none;
+  opacity: 0.055;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+}
+
+.hud-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 45;
+  pointer-events: none;
+  background: 
+    linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%),
+    linear-gradient(90deg, rgba(255, 0, 0, 0.01), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.01));
+  background-size: 100% 4px, 3px 100%;
+  opacity: 0.15;
+}
+
+.vignette {
+  position: fixed;
+  inset: 0;
+  z-index: 46;
+  pointer-events: none;
+  background: radial-gradient(
+    circle at center,
+    transparent 20%,
+    rgba(0, 0, 0, 0.3) 60%,
+    rgba(5, 46, 22, 0.5) 100%
+  );
+}
+
+@keyframes pulse-emerald {
+  0%, 100% { opacity: 0.4; transform: scale(1); }
+  50% { opacity: 0.7; transform: scale(1.05); }
+}
+
+@keyframes pulse-iron {
+  0%, 100% { opacity: 0.4; transform: scale(1); }
+  50% { opacity: 0.7; transform: scale(1.05); }
+}
+
+.animate-pulse-emerald {
+  animation: pulse-emerald 4s infinite ease-in-out;
+}
+
+.animate-pulse-iron {
+  animation: pulse-iron 4s infinite ease-in-out;
+}
+
+.glitch-text {
+  position: relative;
+  display: inline-block;
+}
+
+.glitch-text::before,
+.glitch-text::after {
+  content: attr(data-text);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.8;
+}
+
+.glitch-text::before {
+  color: var(--accent);
+  z-index: -1;
+  animation: glitch-1 3s infinite linear alternate-reverse;
+}
+
+.glitch-text::after {
+  color: #94a3b8;
+  z-index: -2;
+  animation: glitch-2 3s infinite linear alternate-reverse;
+}
+
+@keyframes glitch-1 {
+  0% { transform: translate(0); }
+  20% { transform: translate(-2px, 2px); }
+  40% { transform: translate(-2px, -2px); }
+  60% { transform: translate(2px, 2px); }
+  80% { transform: translate(2px, -2px); }
+  100% { transform: translate(0); }
+}
+
+@keyframes glitch-2 {
+  0% { transform: translate(0); }
+  20% { transform: translate(2px, -2px); }
+  40% { transform: translate(2px, 2px); }
+  60% { transform: translate(-2px, -2px); }
+  80% { transform: translate(-2px, 2px); }
+  100% { transform: translate(0); }
+}
+
+.shimmer-text {
+  background: linear-gradient(
+    110deg,
+    var(--foreground) 0%,
+    var(--foreground) 40%,
+    var(--accent) 50%,
+    var(--foreground) 60%,
+    var(--foreground) 100%
+  );
+  background-size: 200% auto;
+  color: transparent;
+  background-clip: text;
+  -webkit-background-clip: text;
+  animation: shimmer 4s linear infinite;
+}
+
+.shimmer-iron {
+  background: linear-gradient(
+    110deg,
+    var(--foreground) 0%,
+    var(--foreground) 40%,
+    var(--iron-gold) 50%,
+    var(--foreground) 60%,
+    var(--foreground) 100%
+  );
+  background-size: 200% auto;
+  color: transparent;
+  background-clip: text;
+  -webkit-background-clip: text;
+  animation: shimmer 4s linear infinite;
+}
+
+.shimmer-emerald {
+  background: linear-gradient(
+    110deg,
+    var(--foreground) 0%,
+    var(--foreground) 40%,
+    var(--accent) 50%,
+    var(--foreground) 60%,
+    var(--foreground) 100%
+  );
+  background-size: 200% auto;
+  color: transparent;
+  background-clip: text;
+  -webkit-background-clip: text;
+  animation: shimmer 4s linear infinite;
+}
+
+@keyframes shimmer {
+  100% {
+    background-position: -200% center;
+  }
+}
+
+/* Custom Cursor Overrides */
+.hide-default-cursor * {
+  cursor: none !important;
+}
