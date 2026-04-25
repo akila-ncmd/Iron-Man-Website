@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, Variants } from "framer-motion";
 import { useEffect, useState } from "react";
 
 export function PageReveal({ children }: { children: React.ReactNode }) {
@@ -13,13 +13,13 @@ export function PageReveal({ children }: { children: React.ReactNode }) {
     return () => clearTimeout(timer);
   }, []);
 
-  const barVariants = {
+  const barVariants: Variants = {
     initial: { scaleY: 1 },
     animate: (i: number) => ({
       scaleY: 0,
       transition: {
         duration: 0.8,
-        ease: [0.645, 0.045, 0.355, 1],
+        ease: [0.645, 0.045, 0.355, 1] as [number, number, number, number],
         delay: 0.05 * i,
       },
     }),
