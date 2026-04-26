@@ -10,6 +10,8 @@ import { CountdownSection } from "@/components/sections/CountdownSection";
 import { Footer } from "@/components/sections/Footer";
 import { LoadingScreen } from "@/components/ui/LoadingScreen";
 import { PageReveal } from "@/components/ui/PageReveal";
+import { ScrollProgress } from "@/components/ui/ScrollProgress";
+import { HudScrollbar } from "@/components/ui/HudScrollbar";
 
 export default function Home() {
   const [loading, setLoading] = useState(true);
@@ -29,6 +31,8 @@ export default function Home() {
         <LoadingScreen onComplete={() => setLoading(false)} />
       ) : (
         <PageReveal>
+          <ScrollProgress />
+          <HudScrollbar />
           <Navbar />
           <main>
             <div className="[--accent:var(--iron-red)] [--accent-glow:var(--iron-glow)] [--accent-soft:var(--iron-soft)]">

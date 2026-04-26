@@ -60,40 +60,44 @@ export function HudScrollbar() {
     return () => observer.disconnect();
   }, []);
 
-  // Scroll listener
+  // Scroll position polling (Lenis-compatible — doesn't rely on native scroll events)
   useEffect(() => {
     setMounted(true);
-    let ticking = false;
+    let rafId: number;
+    let lastScrollY = -1;
+    let idleFrames = 0;
 
-    const onScroll = () => {
-      if (!ticking) {
-        requestAnimationFrame(() => {
-          updateThumbPosition();
-          setIsVisible(true);
-          glowIntensity.set(1);
+    const poll = () => {
+      const currentY = window.scrollY;
 
-          if (hideTimerRef.current) clearTimeout(hideTimerRef.current);
-          hideTimerRef.current = setTimeout(() => {
-            if (!isDragging && !isHovering) {
-              setIsVisible(false);
-              glowIntensity.set(0);
-            }
-          }, 1800);
+      if (currentY !== lastScrollY) {
+        lastScrollY = currentY;
+        idleFrames = 0;
+        updateThumbPosition();
 
-          ticking = false;
-        });
-        ticking = true;
+        if (!isVisible) setIsVisible(true);
+        glowIntensity.set(1);
+
+        if (hideTimerRef.current) clearTimeout(hideTimerRef.current);
+        hideTimerRef.current = setTimeout(() => {
+          if (!isDragging && !isHovering) {
+            setIsVisible(false);
+            glowIntensity.set(0);
+          }
+        }, 1800);
       }
+
+      rafId = requestAnimationFrame(poll);
     };
 
-    window.addEventListener("scroll", onScroll, { passive: true });
+    rafId = requestAnimationFrame(poll);
     updateThumbPosition();
 
     return () => {
-      window.removeEventListener("scroll", onScroll);
+      cancelAnimationFrame(rafId);
       if (hideTimerRef.current) clearTimeout(hideTimerRef.current);
     };
-  }, [updateThumbPosition, isDragging, isHovering, glowIntensity]);
+  }, [updateThumbPosition, isDragging, isHovering, glowIntensity, isVisible]);
 
   // Drag handler
   const handleDragStart = useCallback((e: React.MouseEvent | React.TouchEvent) => {

@@ -5,8 +5,7 @@ import { SmoothScrollProvider } from "@/components/providers/SmoothScrollProvide
 import { MouseSpotlight } from "@/components/ui/MouseSpotlight";
 import { LatverianEmbers } from "@/components/ui/LatverianEmbers";
 import { CustomCursor } from "@/components/ui/CustomCursor";
-import { ScrollProgress } from "@/components/ui/ScrollProgress";
-import { HudScrollbar } from "@/components/ui/HudScrollbar";
+import { CustomCursor } from "@/components/ui/CustomCursor";
 
 const sans = Inter({
   variable: "--font-sans",
@@ -37,11 +36,9 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${sans.variable} ${heading.variable} ${mono.variable} h-full antialiased`}
+      className={`${sans.variable} ${heading.variable} ${mono.variable} antialiased relative`}
     >
       <body className="relative min-h-full bg-background text-foreground grain">
-        <ScrollProgress />
-        <HudScrollbar />
         <div className="hud-overlay" />
         <div className="vignette" />
         <CustomCursor />
