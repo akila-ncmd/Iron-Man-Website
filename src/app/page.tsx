@@ -30,10 +30,11 @@ export default function Home() {
       {loading ? (
         <LoadingScreen onComplete={() => setLoading(false)} />
       ) : (
-        <PageReveal>
+        <>
           <ScrollProgress />
           <HudScrollbar />
-          <Navbar />
+          <PageReveal>
+            <Navbar />
           <main>
             <div className="[--accent:var(--iron-red)] [--accent-glow:var(--iron-glow)] [--accent-soft:var(--iron-soft)]">
               <Hero />
@@ -44,7 +45,8 @@ export default function Home() {
           </main>
           <Footer />
         </PageReveal>
-      )}
+      </>
+    )}
     </>
   );
 }

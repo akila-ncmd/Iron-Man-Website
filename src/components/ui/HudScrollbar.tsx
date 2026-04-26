@@ -64,15 +64,13 @@ export function HudScrollbar() {
   useEffect(() => {
     setMounted(true);
     let rafId: number;
-    let lastScrollY = -1;
-    let idleFrames = 0;
+    let lastScrollY = window.scrollY;
 
     const poll = () => {
       const currentY = window.scrollY;
 
       if (currentY !== lastScrollY) {
         lastScrollY = currentY;
-        idleFrames = 0;
         updateThumbPosition();
 
         if (!isVisible) setIsVisible(true);
