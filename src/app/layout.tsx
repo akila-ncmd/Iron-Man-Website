@@ -5,7 +5,6 @@ import { SmoothScrollProvider } from "@/components/providers/SmoothScrollProvide
 import { MouseSpotlight } from "@/components/ui/MouseSpotlight";
 import { LatverianEmbers } from "@/components/ui/LatverianEmbers";
 import { CustomCursor } from "@/components/ui/CustomCursor";
-import { CustomCursor } from "@/components/ui/CustomCursor";
 
 const sans = Inter({
   variable: "--font-sans",
