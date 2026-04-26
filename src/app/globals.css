@@ -282,12 +282,16 @@ body {
   }
 }
 
-/* Hide Native Scrollbar (Custom HUD Scrollbar is rendered via React) */
-html {
-  scrollbar-width: none; /* Firefox */
-}
+/* Hide Native Scrollbar visually — Lenis-safe (no overflow changes) */
 html::-webkit-scrollbar {
-  display: none; /* Chrome/Safari/Edge */
+  width: 0px;
+  background: transparent;
+}
+
+@supports (scrollbar-width: none) {
+  html {
+    scrollbar-width: none;
+  }
 }
 
 /* Custom Cursor Overrides */
