@@ -4,7 +4,6 @@ import { useState, useEffect } from "react";
 import { Navbar } from "@/components/ui/Navbar";
 import { Hero } from "@/components/sections/Hero";
 import { CinematicReveal } from "@/components/sections/CinematicReveal";
-import { ThroneRoom } from "@/components/sections/ThroneRoom";
 import { SystemsNominal } from "@/components/sections/SystemsNominal";
 import { CountdownSection } from "@/components/sections/CountdownSection";
 import { Footer } from "@/components/sections/Footer";
