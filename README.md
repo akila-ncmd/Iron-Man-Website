@@ -1,36 +1,110 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Avengers: Doomsday — a scroll-driven concept site
 
-## Getting Started
+A single-page cinematic teaser that hands the projector to the scrollbar. The
+page opens as an Iron Man retrospective in Stark red, then hands the accent
+colour over to Doctor Doom's Latverian green as the countdown to **18 December
+2026** takes over.
 
-First, run the development server:
+**Live:** https://iron-man-website-flame.vercel.app
+
+Fan work. Non-commercial, unaffiliated with Marvel or Disney — see
+[Rights](#rights).
+
+---
+
+## What it is
+
+There is one route and no backend. The whole build is a front-end exercise in
+pacing: how much of a film trailer's grammar — the hold, the cut, the reveal —
+survives being driven by a scroll position instead of a timeline.
+
+Two full-screen sequences are scrubbed frame by frame as you scroll:
+
+| Sequence | Frames | Section | Beat |
+| --- | --- | --- | --- |
+| `public/frames` | 169 | `Hero` | The armour, in Stark red |
+| `public/frames2` | 169 | `CinematicReveal` | The sacrifice, into the handover |
+
+Each sequence is decoded into an `HTMLImageElement` array up front, then painted
+to a full-viewport `<canvas>` on a `requestAnimationFrame`-throttled scroll
+handler. Frame index is derived from the section's own
+`getBoundingClientRect()`, so the sequence is pinned to how far through *that*
+section you are, not to absolute page offset. Dialogue cards, the progress bar
+and the power readout all read from the same normalised `0→1` progress value, so
+the whole section stays in step with a single number.
+
+## The rest of the surface
+
+- **Loading screen** — the `Avengers: Doomsday` logo as a real GLB, lit by two
+  spotlights sweeping in opposition, with the camera pushing slowly inward.
+- **3D mask** — Doctor Doom's mask (`doctor_dooms_mask.glb`) tracking the cursor
+  through a lerped rotation, floating on `@react-three/drei`'s `Float`.
+- **HUD chrome** — a custom scrollbar, scroll-progress rail, cursor, mouse
+  spotlight and drifting embers, all built rather than borrowed.
+- **Type effects** — `ScrambleText` for the countdown digits so each tick
+  resolves out of noise instead of just changing.
+- **Countdown** — live to `2026-12-18T00:00:00`, zero-padded and tabular so the
+  digits do not jitter as they change.
+
+## Design system
+
+Two accents on one page, swapped by CSS custom property rather than by class:
+
+| Token | Value | Used for |
+| --- | --- | --- |
+| `--accent` | `#10b981` | Doom / Latverian green |
+| `--iron-red` | `#ef4444` | Stark red |
+| `--iron-gold` | `#facc15` | Cursor glow in Iron mode |
+| `--background` | `#08090a` | Near-black ground |
+
+The cursor colours are declared with `@property` and a `<color>` syntax, which
+makes them interpolatable — the cursor *transitions* between the two palettes
+across the handover instead of snapping. The Hero and `CinematicReveal` are
+wrapped in a scope that rebinds `--accent` to the iron palette, so the same
+components render in either identity without a prop.
+
+Type is Bebas Neue for display, Inter for body, Orbitron for the HUD readouts.
+
+## Stack
+
+Next.js 16 (App Router, Turbopack) · React 19 · Tailwind CSS v4 ·
+Framer Motion 12 · React Three Fiber 9 + drei 10 · three.js · Lenis ·
+TypeScript
+
+## Running it
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Then open http://localhost:3000.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+npm run build   # production build
+npm run lint    # eslint
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Known trade-offs
 
-## Learn More
+Worth stating plainly, since this is a portfolio piece rather than a product:
 
-To learn more about Next.js, take a look at the following resources:
+- **Both frame sequences preload in full.** That is roughly 25 MB of JPEG before
+  the hero is interactive. It buys a scrub that never stutters and never shows a
+  gap, which is the entire point of the piece — but it is the wrong default for
+  anything with real users, and a progressive or keyframe-first load would be
+  the first thing to change.
+- **No `prefers-reduced-motion` path.** The site is almost entirely motion, so
+  this is the most meaningful accessibility gap in it.
+- **`public/frames3` and `public/frames4`** are two further 169-frame sequences
+  from earlier cuts of the edit. Nothing imports them; they are kept in history
+  rather than deleted, but they are dead weight in a clone.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Rights
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Iron Man, Doctor Doom, Avengers and all related characters, names and imagery
+are trademarks of Marvel Characters, Inc. / The Walt Disney Company. This is
+unofficial, non-commercial fan work made as a design and front-end exercise, and
+is not affiliated with, endorsed by, or sponsored by Marvel or Disney. The
+source code is mine; the referenced characters and any film-derived frames are
+not.
