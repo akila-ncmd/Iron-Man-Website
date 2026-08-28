@@ -126,7 +126,7 @@ export function LoadingScreen({ onComplete }: { onComplete: () => void }) {
             className="absolute inset-0 w-full h-full"
           >
             {/* Glitch Overlay */}
-            <div className="absolute inset-0 z-10 pointer-events-none opacity-20 mix-blend-overlay bg-[url('https://grainy-gradients.vercel.app/noise.svg')]" />
+            <div className="absolute inset-0 z-10 pointer-events-none opacity-20 mix-blend-overlay bg-[url('/noise.svg')]" />
             <Canvas camera={{ position: [0, 0, 8], fov: 40 }}>
               <CameraMotion />
               <color attach="background" args={["#000000"]} />

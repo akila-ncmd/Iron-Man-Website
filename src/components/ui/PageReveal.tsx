@@ -62,7 +62,7 @@ export function PageReveal({ children }: { children: React.ReactNode }) {
             className="flex-1 w-full relative border-b border-white/5 overflow-hidden"
           >
              {/* Metal Texture/Grain */}
-             <div className="absolute inset-0 opacity-[0.03] bg-[url('https://grainy-gradients.vercel.app/noise.svg')] mix-blend-overlay" />
+             <div className="absolute inset-0 opacity-[0.03] bg-[url('/noise.svg')] mix-blend-overlay" />
              
              {/* Edge Glow */}
              <div className="absolute bottom-0 left-0 right-0 h-[1px] bg-accent/20 shadow-[0_0_10px_rgba(16,185,129,0.3)]" />
