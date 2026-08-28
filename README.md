@@ -96,9 +96,11 @@ Worth stating plainly, since this is a portfolio piece rather than a product:
   the first thing to change.
 - **No `prefers-reduced-motion` path.** The site is almost entirely motion, so
   this is the most meaningful accessibility gap in it.
-- **`public/frames3` and `public/frames4`** are two further 169-frame sequences
-  from earlier cuts of the edit. Nothing imports them; they are kept in history
-  rather than deleted, but they are dead weight in a clone.
+- **Two further frame sequences are still in the history.** `public/frames3`
+  and `public/frames4`, from earlier cuts of the edit, were deleted once it was
+  clear nothing imported them. That takes 80MB out of a fresh checkout but not
+  out of the repository — the blobs stay reachable through earlier commits, and
+  only a history rewrite would remove them.
 
 ## Rights
 
